@@ -30,6 +30,22 @@ namespace ecommapp.Controllers
             }
            return View(product);
         }
+
+
+        public IActionResult Edit(int? Id)
+        {
+            var product = _db.products.Find(Id);
+            if (product == null)
+            {
+                _db.products.Add(product);
+                _db.SaveChanges();
+                TempData["success"] = "Product Updated succesfully";
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
+
+
     }
 }
 

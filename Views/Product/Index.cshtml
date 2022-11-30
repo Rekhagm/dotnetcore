@@ -22,7 +22,7 @@
                 <th>stock</th>
                 <th>Brand</th>
                  <th>Price</th>
-                
+                <th>Action</th>
         </thead>
         <tbody>
             @foreach(var productlist in Model.Select((value,index)=>new {index,value}))
@@ -36,7 +36,10 @@
                 <td>@productlist.value.stock</td>
                 <td>@productlist.value.brand</td>
                 <td>@productlist.value.Price</td>
-
+                <td>
+                    <a asp-controller="Product" asp-action="Edit" asp-route-Id="@productlist.value.Id" class="btn btn-sm btn-secondary"><i class="bi bi-pencil-square"></i></a>
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@productlist.value.Id"   class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                </td>
            </tr>
             }
            
