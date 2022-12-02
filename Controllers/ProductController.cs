@@ -1,6 +1,7 @@
 ﻿using ecommapp.Data;
 using Microsoft.AspNetCore.Mvc;
 using ecommapp.Models;
+using System.Collections.Generic;
 
 namespace ecommapp.Controllers
 {
@@ -14,37 +15,55 @@ namespace ecommapp.Controllers
         }
         public IActionResult Index()
         {
-            var products = _db.products.ToList();
+           IEnumerable<products> products = _db.products.ToList();
             return View(products);
         }
 
 
+        public IActionResult Create()
+        {
+            IEnumerable<products> products = _db.products.ToList();
+            return View(products);
+        }
+
+        [HttpPost]
         public IActionResult Create(products product)
         {
-            if (ModelState.IsValid)
-            {
-                _db.products.Add(product);
+              _db.products.Add(product);
                 _db.SaveChanges();
                 TempData["success"] = "Product Created succesfully";
                 return RedirectToAction("Index");
-            }
-           return View(product);
+           
         }
 
-
-        public IActionResult Edit(int? Id)
+       public IActionResult Edit(int? Id)
         {
-            var product = _db.products.Find(Id);
-            if (product == null)
-            {
-                _db.products.Add(product);
-                _db.SaveChanges();
-                TempData["success"] = "Product Updated succesfully";
-                return RedirectToAction("Index");
-            }
+            var product = _db.products.FirstOrDefault(c => c.Id == Id);
             return View(product);
         }
 
+        [HttpPost]
+        public IActionResult Edit(products product)
+
+        {
+                _db.products.Add(product);
+                _db.SaveChanges();
+                return View(product);
+                TempData["success"] = "Product Updated succesfully";
+           
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int? Id)
+        {
+            
+                var product = _db.products.FirstOrDefault(c => c.Id == Id);
+                _db.products.Remove(product);
+                _db.SaveChanges();
+                ViewBag.Message = "Your value delete successfully";
+            
+            return View();
+        }
 
     }
 }
