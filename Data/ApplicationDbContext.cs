@@ -13,6 +13,7 @@ namespace ecommapp.Data
 
         public DbSet<products> products { get; set; }
 
+        public DbSet<Category> categories { get; set; }
 
     }
 }
